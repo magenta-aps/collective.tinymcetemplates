@@ -105,7 +105,13 @@ var TemplateDialog = {
         x.open("GET", u, false);
         x.send(null);
 
-        return x.responseText;
+        var html_doc = x.response;
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html_doc, "text/html");
+          
+        result =  doc.querySelectorAll("[id^=parent-fieldname-text]")[0].innerHTML;
+
+        return result;
     }
 };
 

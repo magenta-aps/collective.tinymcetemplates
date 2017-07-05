@@ -1,17 +1,14 @@
 try:
     import json
 except ImportError:
-    import simplejson as json
+    from simplejson import json
 
 from zope.component import queryUtility
 from zope.publisher.browser import BrowserView
 
 from plone.registry.interfaces import IRegistry
 
-try:
-    from Products.ATContentTypes.interfaces.document import IATDocument
-except:
-    from Products.ATContentTypes.interface import IATDocument
+from Products.ATContentTypes.interfaces.document import IATDocument
 from Products.CMFCore.utils import getToolByName
 
 class TemplateList(BrowserView):
@@ -38,6 +35,6 @@ class TemplateList(BrowserView):
                     paths.append("%s/%s" % (portal_path, p,))
                 
                 for r in portal_catalog(path=paths, object_provides=IATDocument.__identifier__):
-                    templates.append([r.Title, "%s/getText" % r.getURL(), r.Description])
+                    templates.append([r.Title,  r.getURL(), r.Description])
         
         return u"var tinyMCETemplateList = %s;" % json.dumps(templates)
